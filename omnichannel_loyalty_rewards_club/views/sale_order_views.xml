@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_inherit_loyalty" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.loyalty</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_loyalty_redeem_wizard" string="Redeem Points" type="object" class="btn-success" icon="fa-gift" 
+                        invisible="state not in ('draft', 'sent')"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="customer_points_balance" string="Available Points"/>
+                <field name="loyalty_tier_id" widget="badge"/>
+                <field name="loyalty_points_earned" invisible="state not in ('sale', 'done')"/>
+                <field name="loyalty_points_redeemed" invisible="loyalty_points_redeemed == 0"/>
+                <field name="loyalty_discount_amount" invisible="loyalty_discount_amount == 0"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_inherit_loyalty" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.loyalty</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="loyalty_points_earned" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

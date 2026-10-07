@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_inherit_loyalty" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.loyalty</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_loyalty_ledger" type="object" class="oe_stat_button" icon="fa-star">
+                    <field name="loyalty_points_balance" widget="statinfo" string="Loyalty Points"/>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page string="Loyalty &amp; Rewards Club" name="loyalty_page">
+                    <group>
+                        <group string="VIP Club Status">
+                            <field name="loyalty_tier_id" widget="badge"/>
+                            <field name="loyalty_points_balance" string="Spendable Points Balance"/>
+                            <field name="lifetime_points_earned"/>
+                            <field name="lifetime_points_redeemed"/>
+                        </group>
+                        <group string="Personal &amp; Referral Program">
+                            <field name="birthday"/>
+                            <field name="referral_code" widget="CopyClipboardChar"/>
+                            <field name="referred_by_id"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

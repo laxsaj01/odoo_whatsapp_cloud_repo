@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Security Category -->
+        <record id="module_category_loyalty_club" model="ir.module.category">
+            <field name="name">Customer Loyalty Club</field>
+            <field name="description">Manage user roles and permissions for Customer Loyalty &amp; Rewards Club</field>
+            <field name="sequence">35</field>
+        </record>
+
+        <!-- User / Sales Rep Group -->
+        <record id="group_loyalty_user" model="res.groups">
+            <field name="name">User / Sales Rep</field>
+            <field name="category_id" ref="module_category_loyalty_club"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">Sales representatives can view customer loyalty tiers, check points balances, and redeem points on orders.</field>
+        </record>
+
+        <!-- Manager / Administrator Group -->
+        <record id="group_loyalty_manager" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="module_category_loyalty_club"/>
+            <field name="implied_ids" eval="[(4, ref('group_loyalty_user')), (4, ref('sales_team.group_sale_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+            <field name="comment">Administrators can configure VIP tiers, point conversion rates, expiration rules, and manual ledger adjustments.</field>
+        </record>
+    </data>
+
+    <!-- Multi-Company Record Rules -->
+    <data noupdate="1">
+        <record id="loyalty_tier_company_rule" model="ir.rule">
+            <field name="name">Loyalty Tier Multi-Company</field>
+            <field name="model_id" ref="model_loyalty_tier"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="loyalty_points_ledger_company_rule" model="ir.rule">
+            <field name="name">Loyalty Points Ledger Multi-Company</field>
+            <field name="model_id" ref="model_loyalty_points_ledger"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

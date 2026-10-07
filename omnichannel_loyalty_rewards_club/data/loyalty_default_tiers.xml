@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Bronze Tier -->
+        <record id="loyalty_tier_bronze" model="loyalty.tier">
+            <field name="name">Bronze Club</field>
+            <field name="sequence">10</field>
+            <field name="min_spend_amount">0.0</field>
+            <field name="points_multiplier">1.0</field>
+            <field name="color">3</field>
+            <field name="description">Standard introductory tier for all registered shoppers. Earns 1.0x baseline reward points.</field>
+        </record>
+
+        <!-- Silver Tier -->
+        <record id="loyalty_tier_silver" model="loyalty.tier">
+            <field name="name">Silver VIP</field>
+            <field name="sequence">20</field>
+            <field name="min_spend_amount">500.0</field>
+            <field name="points_multiplier">1.25</field>
+            <field name="color">4</field>
+            <field name="description">Unlocked at $500 lifetime spend. Earns 25% bonus points on all purchases.</field>
+        </record>
+
+        <!-- Gold Tier -->
+        <record id="loyalty_tier_gold" model="loyalty.tier">
+            <field name="name">Gold Elite</field>
+            <field name="sequence">30</field>
+            <field name="min_spend_amount">2000.0</field>
+            <field name="points_multiplier">1.5</field>
+            <field name="color">2</field>
+            <field name="description">Unlocked at $2,000 lifetime spend. Earns 50% bonus points on all purchases.</field>
+        </record>
+
+        <!-- Platinum Tier -->
+        <record id="loyalty_tier_platinum" model="loyalty.tier">
+            <field name="name">Platinum Executive</field>
+            <field name="sequence">40</field>
+            <field name="min_spend_amount">5000.0</field>
+            <field name="points_multiplier">2.0</field>
+            <field name="color">1</field>
+            <field name="description">Highest tier unlocked at $5,000 lifetime spend. Earns DOUBLE (2.0x) points on all transactions.</field>
+        </record>
+    </data>
+</odoo>

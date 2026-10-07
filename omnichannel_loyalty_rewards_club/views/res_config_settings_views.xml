@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_loyalty" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.loyalty</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="45"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Loyalty &amp; Rewards Club" string="Loyalty Club" name="omnichannel_loyalty_rewards_club">
+                    <block title="Points Accrual &amp; Valuation Rules" name="loyalty_valuation_settings">
+                        <setting id="loyalty_earn_ratio_setting" string="Earn Ratio" help="Number of base points credited per $1 of net qualifying spend.">
+                            <field name="loyalty_earn_ratio"/>
+                        </setting>
+                        <setting id="loyalty_redeem_ratio_setting" string="Redemption Valuation ($/point)" help="Cash equivalent discount granted per 1 loyalty point redeemed.">
+                            <field name="loyalty_redeem_ratio"/>
+                        </setting>
+                        <setting id="loyalty_max_cap_setting" string="Redemption Order Cap (%)" help="Maximum percentage of an order total that can be discounted using points.">
+                            <field name="loyalty_max_redemption_percent"/>
+                        </setting>
+                    </block>
+                    <block title="Marketing &amp; Promotional Bonuses" name="loyalty_bonus_settings">
+                        <setting id="loyalty_welcome_bonus_setting" string="Welcome Sign-up Bonus" help="Points credited upon registration or first purchase.">
+                            <field name="loyalty_welcome_bonus"/>
+                        </setting>
+                        <setting id="loyalty_birthday_bonus_setting" string="Birthday Celebration Bonus" help="Annual points awarded on the customer birthday.">
+                            <field name="loyalty_birthday_bonus"/>
+                        </setting>
+                        <setting id="loyalty_referral_bonus_setting" string="Referral Reward Points" help="Points awarded to both advocate and referee upon first completed order.">
+                            <field name="loyalty_referral_bonus"/>
+                        </setting>
+                    </block>
+                    <block title="Expiration &amp; Housekeeping" name="loyalty_expiry_settings">
+                        <setting id="loyalty_validity_setting" string="Points Validity Period (Days)" help="Points older than this duration expire automatically (0 for lifetime).">
+                            <field name="loyalty_validity_days"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_loyalty_config_settings" model="ir.actions.act_window">
+        <field name="name">Loyalty Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'omnichannel_loyalty_rewards_club', 'bin_size': False}</field>
+    </record>
+</odoo>

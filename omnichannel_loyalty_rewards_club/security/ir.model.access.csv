@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loyalty_tier_user,loyalty.tier.user,model_loyalty_tier,group_loyalty_user,1,0,0,0
+access_loyalty_tier_manager,loyalty.tier.manager,model_loyalty_tier,group_loyalty_manager,1,1,1,1
+access_loyalty_points_ledger_user,loyalty.points.ledger.user,model_loyalty_points_ledger,group_loyalty_user,1,0,1,0
+access_loyalty_points_ledger_manager,loyalty.points.ledger.manager,model_loyalty_points_ledger,group_loyalty_manager,1,1,1,1
+access_loyalty_points_redeem_wizard_user,loyalty.points.redeem.wizard.user,model_loyalty_points_redeem_wizard,group_loyalty_user,1,1,1,1
+access_loyalty_points_redeem_wizard_manager,loyalty.points.redeem.wizard.manager,model_loyalty_points_redeem_wizard,group_loyalty_manager,1,1,1,1

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loyalty_points_redeem_wizard_form" model="ir.ui.view">
+        <field name="name">loyalty.points.redeem.wizard.form</field>
+        <field name="model">loyalty.points.redeem.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Redeem Customer Loyalty Points">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Apply customer wallet points directly as cash-equivalent discount lines.
+                    </div>
+                    <group>
+                        <group string="Member Points Balance">
+                            <field name="partner_id"/>
+                            <field name="available_points" string="Spendable Balance"/>
+                            <field name="max_redeemable_points" string="Max Allowed (Order Cap)"/>
+                        </group>
+                        <group string="Redemption Calculation">
+                            <field name="order_amount_total"/>
+                            <field name="points_to_redeem" placeholder="Enter points to spend..."/>
+                            <field name="discount_amount" widget="monetary" string="Instant Cash Discount"/>
+                        </group>
+                    </group>
+                    <field name="order_id" invisible="1"/>
+                    <field name="move_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_confirm_redemption" string="Apply Discount" type="object" class="btn-success" icon="fa-gift"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

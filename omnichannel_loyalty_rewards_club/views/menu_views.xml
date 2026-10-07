@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root App Menu -->
+    <menuitem id="menu_loyalty_root"
+              name="Loyalty Club"
+              sequence="68"
+              web_icon="omnichannel_loyalty_rewards_club,static/description/icon.png"/>
+
+    <!-- Operational Submenus -->
+    <menuitem id="menu_loyalty_ledger"
+              name="Points Ledger"
+              parent="menu_loyalty_root"
+              action="action_loyalty_points_ledger"
+              sequence="10"/>
+
+    <menuitem id="menu_loyalty_tiers"
+              name="VIP Club Tiers"
+              parent="menu_loyalty_root"
+              action="action_loyalty_tier"
+              sequence="20"/>
+
+    <!-- Configuration Submenus -->
+    <menuitem id="menu_loyalty_config_parent"
+              name="Configuration"
+              parent="menu_loyalty_root"
+              groups="group_loyalty_manager"
+              sequence="100"/>
+
+    <menuitem id="menu_loyalty_settings"
+              name="Settings"
+              parent="menu_loyalty_config_parent"
+              action="action_loyalty_config_settings"
+              sequence="10"/>
+</odoo>

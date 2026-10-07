@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_loyalty_points_ledger_tree" model="ir.ui.view">
+        <field name="name">loyalty.points.ledger.tree</field>
+        <field name="model">loyalty.points.ledger</field>
+        <field name="arch" type="xml">
+            <tree string="Loyalty Points Ledger" create="false" decoration-success="points &gt; 0" decoration-danger="points &lt; 0">
+                <field name="create_date" string="Date"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="transaction_type" widget="badge"/>
+                <field name="points" sum="Total Points Delta"/>
+                <field name="amount_monetary"/>
+                <field name="order_id" optional="show"/>
+                <field name="move_id" optional="hide"/>
+                <field name="expiration_date" optional="hide"/>
+                <field name="is_expired" widget="boolean_toggle" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_loyalty_points_ledger_form" model="ir.ui.view">
+        <field name="name">loyalty.points.ledger.form</field>
+        <field name="model">loyalty.points.ledger</field>
+        <field name="arch" type="xml">
+            <form string="Loyalty Points Transaction" create="false">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Member &amp; Points">
+                            <field name="partner_id"/>
+                            <field name="transaction_type" widget="badge"/>
+                            <field name="points"/>
+                            <field name="amount_monetary"/>
+                        </group>
+                        <group string="Context &amp; Validity">
+                            <field name="order_id" invisible="not order_id"/>
+                            <field name="move_id" invisible="not move_id"/>
+                            <field name="expiration_date" invisible="not expiration_date"/>
+                            <field name="is_expired"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Transaction Details" name="notes_page">
+                            <field name="notes" placeholder="Audit reasoning, order reference, or promotional event..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_loyalty_points_ledger_search" model="ir.ui.view">
+        <field name="name">loyalty.points.ledger.search</field>
+        <field name="model">loyalty.points.ledger</field>
+        <field name="arch" type="xml">
+            <search string="Search Ledger">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="order_id"/>
+                <filter name="earned" string="Points Earned" domain="[('points', '&gt;', 0)]"/>
+                <filter name="redeemed" string="Points Redeemed" domain="[('points', '&lt;', 0)]"/>
+                <filter name="purchases" string="Purchases" domain="[('transaction_type', '=', 'earn_purchase')]"/>
+                <filter name="referrals" string="Referral Rewards" domain="[('transaction_type', '=', 'earn_referral')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_type" string="Transaction Type" context="{'group_by': 'transaction_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_loyalty_points_ledger" model="ir.actions.act_window">
+        <field name="name">Points Transaction Ledger</field>
+        <field name="res_model">loyalty.points.ledger</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_loyalty_points_ledger_search"/>
+    </record>
+</odoo>
