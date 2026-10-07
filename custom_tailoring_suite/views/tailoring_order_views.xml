@@ -63,16 +63,16 @@
         <field name="arch" type="xml">
             <form string="Bespoke Tailoring Job Order">
                 <header>
-                    <button name="action_confirm" string="Confirm Order &amp; Measurements" type="object" states="draft" class="oe_highlight"/>
-                    <button name="action_start_cutting" string="Send to Cutting Room" type="object" states="confirmed" class="oe_highlight"/>
-                    <button name="action_start_tailoring" string="Start Assembly &amp; Basting" type="object" states="cutting" class="oe_highlight"/>
-                    <button name="action_fitting_1" string="Schedule 1st Basted Trial" type="object" states="tailoring" class="oe_highlight"/>
-                    <button name="action_start_alteration" string="Send for Alterations" type="object" states="fitting_1"/>
-                    <button name="action_fitting_2" string="Schedule 2nd Forward Trial" type="object" states="alteration" class="oe_highlight"/>
-                    <button name="action_mark_ready" string="Quality Passed (Ready for Pickup)" type="object" states="tailoring,fitting_2,alteration" class="oe_highlight"/>
-                    <button name="action_deliver" string="Deliver to Client" type="object" states="ready" class="btn-success"/>
+                    <button name="action_confirm" string="Confirm Order &amp; Measurements" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="action_start_cutting" string="Send to Cutting Room" type="object" invisible="state != 'confirmed'" class="oe_highlight"/>
+                    <button name="action_start_tailoring" string="Start Assembly &amp; Basting" type="object" invisible="state != 'cutting'" class="oe_highlight"/>
+                    <button name="action_fitting_1" string="Schedule 1st Basted Trial" type="object" invisible="state != 'tailoring'" class="oe_highlight"/>
+                    <button name="action_start_alteration" string="Send for Alterations" type="object" invisible="state != 'fitting_1'"/>
+                    <button name="action_fitting_2" string="Schedule 2nd Forward Trial" type="object" invisible="state != 'alteration'" class="oe_highlight"/>
+                    <button name="action_mark_ready" string="Quality Passed (Ready for Pickup)" type="object" invisible="state not in ('tailoring', 'fitting_2', 'alteration')" class="oe_highlight"/>
+                    <button name="action_deliver" string="Deliver to Client" type="object" invisible="state != 'ready'" class="btn-success"/>
                     <button name="action_print_cutting_ticket" string="Print Workshop Cutting Ticket" type="object" icon="fa-print" class="btn-outline-primary"/>
-                    <button name="action_cancel" string="Cancel Order" type="object" states="draft,confirmed,cutting,tailoring,fitting_1,alteration,fitting_2"/>
+                    <button name="action_cancel" string="Cancel Order" type="object" invisible="state not in ('draft', 'confirmed', 'cutting', 'tailoring', 'fitting_1', 'alteration', 'fitting_2')"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cutting,tailoring,fitting_1,ready,delivered"/>
                 </header>
                 <sheet>
@@ -143,12 +143,12 @@
                             <group>
                                 <group>
                                     <field name="monogram_required"/>
-                                    <field name="monogram_text" attrs="{'invisible': [('monogram_required', '=', False)], 'required': [('monogram_required', '=', True)]}"/>
-                                    <field name="monogram_font" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
+                                    <field name="monogram_text" invisible="not monogram_required" required="monogram_required"/>
+                                    <field name="monogram_font" invisible="not monogram_required"/>
                                 </group>
                                 <group>
-                                    <field name="monogram_color" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
-                                    <field name="monogram_placement" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
+                                    <field name="monogram_color" invisible="not monogram_required"/>
+                                    <field name="monogram_placement" invisible="not monogram_required"/>
                                 </group>
                             </group>
                         </page>

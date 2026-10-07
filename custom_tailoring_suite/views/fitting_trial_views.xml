@@ -25,9 +25,9 @@
         <field name="arch" type="xml">
             <form string="Fitting Trial Session">
                 <header>
-                    <button name="action_start_trial" string="Start Fitting Trial" type="object" states="scheduled" class="oe_highlight"/>
-                    <button name="action_complete_trial" string="Complete Fitting" type="object" states="in_progress" class="oe_highlight"/>
-                    <button name="action_cancel_trial" string="Cancel Appointment" type="object" states="scheduled,in_progress"/>
+                    <button name="action_start_trial" string="Start Fitting Trial" type="object" invisible="state != 'scheduled'" class="oe_highlight"/>
+                    <button name="action_complete_trial" string="Complete Fitting" type="object" invisible="state != 'in_progress'" class="oe_highlight"/>
+                    <button name="action_cancel_trial" string="Cancel Appointment" type="object" invisible="state not in ('scheduled', 'in_progress')"/>
                     <field name="state" widget="statusbar" statusbar_visible="scheduled,in_progress,completed"/>
                 </header>
                 <sheet>
@@ -45,7 +45,7 @@
                         <group name="schedule">
                             <field name="scheduled_date"/>
                             <field name="tailor_id"/>
-                            <field name="fit_result" attrs="{'required': [('state', '=', 'in_progress')]}"/>
+                            <field name="fit_result" required="state == 'in_progress'"/>
                         </group>
                     </group>
                     <group string="Fitting Assessment &amp; Chalk Alteration Notes">
