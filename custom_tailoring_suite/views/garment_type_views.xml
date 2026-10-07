@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_garment_type_tree" model="ir.ui.view">
+        <field name="name">tailoring.garment.type.tree</field>
+        <field name="model">tailoring.garment.type</field>
+        <field name="arch" type="xml">
+            <tree string="Garment Categories">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="default_lead_time_days"/>
+                <field name="estimated_labor_hours"/>
+                <field name="standard_fabric_meters"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_garment_type_form" model="ir.ui.view">
+        <field name="name">tailoring.garment.type.form</field>
+        <field name="model">tailoring.garment.type</field>
+        <field name="arch" type="xml">
+            <form string="Bespoke Garment Category">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Garment Type Name"/>
+                        <h1><field name="name" placeholder="e.g. 2-Piece Bespoke Suit"/></h1>
+                    </div>
+                    <group>
+                        <group name="meta">
+                            <field name="code" placeholder="e.g. SUIT_2PC"/>
+                            <field name="category"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group name="workshop_specs">
+                            <field name="default_lead_time_days"/>
+                            <field name="estimated_labor_hours"/>
+                            <field name="standard_fabric_meters"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Required Body Parameters" name="params">
+                            <field name="parameter_ids" widget="many2many_tags"/>
+                        </page>
+                        <page string="Available Style Options" name="styles">
+                            <field name="style_option_ids" widget="many2many_tags"/>
+                        </page>
+                        <page string="Workshop Specifications" name="notes">
+                            <field name="description" placeholder="Standard workshop guidelines for this garment category..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tailoring_garment_type" model="ir.actions.act_window">
+        <field name="name">Garment Categories</field>
+        <field name="res_model">tailoring.garment.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define your bespoke apparel categories (e.g. Suits, Shirts, Trousers, Tuxedos).
+            </p>
+        </field>
+    </record>
+
+</odoo>

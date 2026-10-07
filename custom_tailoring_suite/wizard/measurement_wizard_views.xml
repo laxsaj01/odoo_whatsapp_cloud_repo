@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_measurement_wizard_form" model="ir.ui.view">
+        <field name="name">tailoring.measurement.wizard.form</field>
+        <field name="model">tailoring.measurement.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Rapid Client Body Measurement Wizard">
+                <group>
+                    <group>
+                        <field name="partner_id" options="{'no_create': True}"/>
+                        <field name="garment_type_id"/>
+                        <field name="date_measured"/>
+                    </group>
+                    <group>
+                        <field name="measurement_unit" widget="radio" options="{'horizontal': true}"/>
+                        <field name="posture_profile"/>
+                        <field name="shoulder_slope"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Body Parameter Measurements" name="params">
+                        <field name="line_ids">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="parameter_id"/>
+                                <field name="body_part"/>
+                                <field name="value" string="Measurement Value"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Tailor Notes" name="notes">
+                        <field name="notes" placeholder="Fit preferences, ease, drape instructions..."/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_save_measurement" string="Save &amp; Generate Profile" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tailoring_measurement_wizard" model="ir.actions.act_window">
+        <field name="name">Rapid Measurement Wizard</field>
+        <field name="res_model">tailoring.measurement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

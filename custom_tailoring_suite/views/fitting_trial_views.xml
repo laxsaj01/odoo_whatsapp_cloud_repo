@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_fitting_trial_tree" model="ir.ui.view">
+        <field name="name">tailoring.fitting.trial.tree</field>
+        <field name="model">tailoring.fitting.trial</field>
+        <field name="arch" type="xml">
+            <tree string="Fitting Appointments" decoration-info="state == 'scheduled'" decoration-warning="state == 'in_progress'" decoration-success="state == 'completed'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="order_id"/>
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <field name="trial_type"/>
+                <field name="scheduled_date"/>
+                <field name="tailor_id" widget="many2one_avatar_user"/>
+                <field name="fit_result"/>
+                <field name="state" widget="badge" decoration-info="state == 'scheduled'" decoration-warning="state == 'in_progress'" decoration-success="state == 'completed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_fitting_trial_form" model="ir.ui.view">
+        <field name="name">tailoring.fitting.trial.form</field>
+        <field name="model">tailoring.fitting.trial</field>
+        <field name="arch" type="xml">
+            <form string="Fitting Trial Session">
+                <header>
+                    <button name="action_start_trial" string="Start Fitting Trial" type="object" states="scheduled" class="oe_highlight"/>
+                    <button name="action_complete_trial" string="Complete Fitting" type="object" states="in_progress" class="oe_highlight"/>
+                    <button name="action_cancel_trial" string="Cancel Appointment" type="object" states="scheduled,in_progress"/>
+                    <field name="state" widget="statusbar" statusbar_visible="scheduled,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Appointment Reference"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group name="order_info">
+                            <field name="order_id"/>
+                            <field name="partner_id"/>
+                            <field name="garment_type_id"/>
+                            <field name="trial_type"/>
+                        </group>
+                        <group name="schedule">
+                            <field name="scheduled_date"/>
+                            <field name="tailor_id"/>
+                            <field name="fit_result" attrs="{'required': [('state', '=', 'in_progress')]}"/>
+                        </group>
+                    </group>
+                    <group string="Fitting Assessment &amp; Chalk Alteration Notes">
+                        <field name="alteration_notes" placeholder="e.g. Pin chest 0.5 in, take in trouser waist 0.75 in, lower collar 0.25 in..."/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tailoring_fitting_trial_calendar" model="ir.ui.view">
+        <field name="name">tailoring.fitting.trial.calendar</field>
+        <field name="model">tailoring.fitting.trial</field>
+        <field name="arch" type="xml">
+            <calendar string="Fitting Trials" date_start="scheduled_date" color="tailor_id" mode="week">
+                <field name="partner_id"/>
+                <field name="order_id"/>
+                <field name="trial_type"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_tailoring_fitting_trial" model="ir.actions.act_window">
+        <field name="name">Fitting Appointments</field>
+        <field name="res_model">tailoring.fitting.trial</field>
+        <field name="view_mode">tree,calendar,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage bespoke fitting trial appointments (1st Basted, 2nd Forward, and Final Check).
+            </p>
+        </field>
+    </record>
+
+</odoo>

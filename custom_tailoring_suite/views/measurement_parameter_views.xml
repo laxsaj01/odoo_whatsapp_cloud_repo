@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_measurement_parameter_tree" model="ir.ui.view">
+        <field name="name">tailoring.measurement.parameter.tree</field>
+        <field name="model">tailoring.measurement.parameter</field>
+        <field name="arch" type="xml">
+            <tree string="Body Measurement Parameters">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="body_part"/>
+                <field name="default_unit"/>
+                <field name="min_allowed_value"/>
+                <field name="max_allowed_value"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_measurement_parameter_form" model="ir.ui.view">
+        <field name="name">tailoring.measurement.parameter.form</field>
+        <field name="model">tailoring.measurement.parameter</field>
+        <field name="arch" type="xml">
+            <form string="Measurement Parameter">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Parameter Name"/>
+                        <h1><field name="name" placeholder="e.g. Full Chest Circumference"/></h1>
+                    </div>
+                    <group>
+                        <group name="general">
+                            <field name="code" placeholder="e.g. CHEST"/>
+                            <field name="body_part"/>
+                            <field name="default_unit"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group name="validation">
+                            <field name="min_allowed_value"/>
+                            <field name="max_allowed_value"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group string="Master Cutter Measurement Guide">
+                        <field name="help_instruction" placeholder="Instructions on how to accurately position the tape on client body..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tailoring_measurement_parameter_search" model="ir.ui.view">
+        <field name="name">tailoring.measurement.parameter.search</field>
+        <field name="model">tailoring.measurement.parameter</field>
+        <field name="arch" type="xml">
+            <search string="Search Parameters">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="body_part"/>
+                <filter string="Upper Body" name="upper" domain="[('body_part', '=', 'upper_body')]"/>
+                <filter string="Arms &amp; Sleeves" name="arm" domain="[('body_part', '=', 'arm')]"/>
+                <filter string="Lower Body" name="lower" domain="[('body_part', '=', 'lower_body')]"/>
+                <filter string="Legs" name="leg" domain="[('body_part', '=', 'leg')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Anatomical Region" name="grp_body_part" context="{'group_by': 'body_part'}"/>
+                    <filter string="Unit" name="grp_unit" context="{'group_by': 'default_unit'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tailoring_measurement_parameter" model="ir.actions.act_window">
+        <field name="name">Body Parameters</field>
+        <field name="res_model">tailoring.measurement.parameter</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tailoring_measurement_parameter_search"/>
+    </record>
+
+</odoo>

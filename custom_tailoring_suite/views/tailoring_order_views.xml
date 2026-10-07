@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_order_tree" model="ir.ui.view">
+        <field name="name">tailoring.order.tree</field>
+        <field name="model">tailoring.order</field>
+        <field name="arch" type="xml">
+            <tree string="Bespoke Tailoring Orders" decoration-warning="state in ('fitting_1', 'fitting_2', 'alteration')" decoration-success="state == 'ready'" decoration-muted="state in ('delivered', 'cancel')">
+                <field name="name"/>
+                <field name="priority" widget="priority"/>
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <field name="order_date"/>
+                <field name="delivery_date"/>
+                <field name="cutter_id" widget="many2one_avatar_user"/>
+                <field name="tailor_id" widget="many2one_avatar_user"/>
+                <field name="fabric_product_id"/>
+                <field name="monogram_required" widget="boolean_toggle"/>
+                <field name="state" widget="badge" decoration-info="state in ('draft', 'confirmed')" decoration-warning="state in ('cutting', 'tailoring', 'fitting_1', 'alteration', 'fitting_2')" decoration-success="state == 'ready'" decoration-primary="state == 'delivered'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_order_kanban" model="ir.ui.view">
+        <field name="name">tailoring.order.kanban</field>
+        <field name="model">tailoring.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <field name="delivery_date"/>
+                <field name="priority"/>
+                <field name="state"/>
+                <field name="monogram_required"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click p-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-primary"><field name="name"/></strong>
+                                <field name="priority" widget="priority"/>
+                            </div>
+                            <div class="font-weight-bold mb-1"><field name="partner_id"/></div>
+                            <div class="text-muted small mb-2"><field name="garment_type_id"/></div>
+                            <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                                <span class="small text-muted">
+                                    <i class="fa fa-calendar me-1"/> Due: <field name="delivery_date"/>
+                                </span>
+                                <t t-if="record.monogram_required.raw_value">
+                                    <span class="badge bg-warning text-dark"><i class="fa fa-star me-1"/>Monogram</span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_tailoring_order_form" model="ir.ui.view">
+        <field name="name">tailoring.order.form</field>
+        <field name="model">tailoring.order</field>
+        <field name="arch" type="xml">
+            <form string="Bespoke Tailoring Job Order">
+                <header>
+                    <button name="action_confirm" string="Confirm Order &amp; Measurements" type="object" states="draft" class="oe_highlight"/>
+                    <button name="action_start_cutting" string="Send to Cutting Room" type="object" states="confirmed" class="oe_highlight"/>
+                    <button name="action_start_tailoring" string="Start Assembly &amp; Basting" type="object" states="cutting" class="oe_highlight"/>
+                    <button name="action_fitting_1" string="Schedule 1st Basted Trial" type="object" states="tailoring" class="oe_highlight"/>
+                    <button name="action_start_alteration" string="Send for Alterations" type="object" states="fitting_1"/>
+                    <button name="action_fitting_2" string="Schedule 2nd Forward Trial" type="object" states="alteration" class="oe_highlight"/>
+                    <button name="action_mark_ready" string="Quality Passed (Ready for Pickup)" type="object" states="tailoring,fitting_2,alteration" class="oe_highlight"/>
+                    <button name="action_deliver" string="Deliver to Client" type="object" states="ready" class="btn-success"/>
+                    <button name="action_print_cutting_ticket" string="Print Workshop Cutting Ticket" type="object" icon="fa-print" class="btn-outline-primary"/>
+                    <button name="action_cancel" string="Cancel Order" type="object" states="draft,confirmed,cutting,tailoring,fitting_1,alteration,fitting_2"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cutting,tailoring,fitting_1,ready,delivered"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_fittings" type="object" class="oe_stat_button" icon="fa-calendar">
+                            <field name="fitting_count" widget="statinfo" string="Fitting Trials"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Job Order #"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="client_details">
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="garment_type_id"/>
+                            <field name="measurement_id" options="{'no_create': True}"/>
+                            <field name="sale_order_id" options="{'no_create': True}"/>
+                        </group>
+                        <group name="timing_priority">
+                            <field name="priority" widget="priority"/>
+                            <field name="order_date"/>
+                            <field name="fitting_date"/>
+                            <field name="delivery_date"/>
+                        </group>
+                    </group>
+
+                    <group string="Artisan Workshop Assignments">
+                        <group>
+                            <field name="cutter_id"/>
+                        </group>
+                        <group>
+                            <field name="tailor_id"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Bespoke Styling Options" name="styling">
+                            <field name="style_line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="option_id"/>
+                                    <field name="value_id"/>
+                                    <field name="price_extra"/>
+                                    <field name="notes" placeholder="e.g. 3.5 inch wide peak lapel"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Fabric &amp; Trims Allocation" name="fabrics">
+                            <group>
+                                <group string="Main Cloth">
+                                    <field name="fabric_product_id"/>
+                                    <field name="fabric_lot_number" placeholder="e.g. Scabal Super 140s Navy Herringbone - Roll #224"/>
+                                    <field name="fabric_meterage_required"/>
+                                    <field name="fabric_meterage_consumed"/>
+                                </group>
+                                <group string="Trims &amp; Lining">
+                                    <field name="lining_product_id"/>
+                                    <field name="button_spec"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Monogramming &amp; Personalization" name="monogram">
+                            <group>
+                                <group>
+                                    <field name="monogram_required"/>
+                                    <field name="monogram_text" attrs="{'invisible': [('monogram_required', '=', False)], 'required': [('monogram_required', '=', True)]}"/>
+                                    <field name="monogram_font" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
+                                </group>
+                                <group>
+                                    <field name="monogram_color" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
+                                    <field name="monogram_placement" attrs="{'invisible': [('monogram_required', '=', False)]}"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Fitting Trial Appointments" name="fittings">
+                            <field name="fitting_ids" context="{'default_order_id': active_id}">
+                                <tree decoration-info="state == 'scheduled'" decoration-warning="state == 'in_progress'" decoration-success="state == 'completed'">
+                                    <field name="name"/>
+                                    <field name="trial_type"/>
+                                    <field name="scheduled_date"/>
+                                    <field name="tailor_id"/>
+                                    <field name="fit_result"/>
+                                    <field name="state" widget="badge"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Master Workshop Instructions" name="instructions">
+                            <group>
+                                <field name="workshop_instructions" placeholder="Enter specific cutter/tailor notes: e.g. Rope shoulder, soft Neapolitan canvas, 1/4 inch pick stitching..."/>
+                                <field name="customer_notes" placeholder="Client special notes or event requests..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tailoring_order_search" model="ir.ui.view">
+        <field name="name">tailoring.order.search</field>
+        <field name="model">tailoring.order</field>
+        <field name="arch" type="xml">
+            <search string="Search Bespoke Orders">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <filter string="Active In Workshop" name="in_progress" domain="[('state', 'in', ('confirmed', 'cutting', 'tailoring', 'fitting_1', 'alteration', 'fitting_2'))]"/>
+                <filter string="In Fitting Trials" name="fittings" domain="[('state', 'in', ('fitting_1', 'fitting_2'))]"/>
+                <filter string="Ready for Delivery" name="ready" domain="[('state', '=', 'ready')]"/>
+                <filter string="VIP / Urgent Priority" name="vip" domain="[('priority', 'in', ('2', '3'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="grp_state" context="{'group_by': 'state'}"/>
+                    <filter string="Client" name="grp_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Garment Category" name="grp_garment" context="{'group_by': 'garment_type_id'}"/>
+                    <filter string="Master Cutter" name="grp_cutter" context="{'group_by': 'cutter_id'}"/>
+                    <filter string="Delivery Date" name="grp_delivery" context="{'group_by': 'delivery_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tailoring_order" model="ir.actions.act_window">
+        <field name="name">Bespoke Job Orders</field>
+        <field name="res_model">tailoring.order</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_tailoring_order_search"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create and track bespoke tailoring job orders from measurement to cutting, basting, fitting, and delivery.
+            </p>
+        </field>
+    </record>
+
+</odoo>

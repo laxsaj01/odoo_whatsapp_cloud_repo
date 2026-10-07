@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Top-level Application Menu -->
+    <menuitem id="menu_tailoring_root"
+              name="Bespoke Tailoring"
+              web_icon="custom_tailoring_suite,static/description/icon.png"
+              sequence="15"/>
+
+    <!-- Workshop Operations Menu -->
+    <menuitem id="menu_tailoring_workshop"
+              name="Workshop Operations"
+              parent="menu_tailoring_root"
+              sequence="10"/>
+
+    <menuitem id="menu_tailoring_orders"
+              name="Bespoke Job Orders"
+              parent="menu_tailoring_workshop"
+              action="action_tailoring_order"
+              sequence="10"/>
+
+    <menuitem id="menu_tailoring_fitting_trials"
+              name="Fitting Appointments"
+              parent="menu_tailoring_workshop"
+              action="action_tailoring_fitting_trial"
+              sequence="20"/>
+
+    <!-- Clients & Measurements Menu -->
+    <menuitem id="menu_tailoring_clients"
+              name="Measurements &amp; Clients"
+              parent="menu_tailoring_root"
+              sequence="20"/>
+
+    <menuitem id="menu_tailoring_customer_measurements"
+              name="Client Measurement Profiles"
+              parent="menu_tailoring_clients"
+              action="action_tailoring_customer_measurement"
+              sequence="10"/>
+
+    <menuitem id="menu_tailoring_rapid_wizard"
+              name="Rapid Measurement Wizard"
+              parent="menu_tailoring_clients"
+              action="action_tailoring_measurement_wizard"
+              sequence="20"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_tailoring_config"
+              name="Configuration"
+              parent="menu_tailoring_root"
+              groups="group_tailoring_manager"
+              sequence="30"/>
+
+    <menuitem id="menu_tailoring_garment_types"
+              name="Garment Categories"
+              parent="menu_tailoring_config"
+              action="action_tailoring_garment_type"
+              sequence="10"/>
+
+    <menuitem id="menu_tailoring_body_parameters"
+              name="Body Parameters"
+              parent="menu_tailoring_config"
+              action="action_tailoring_measurement_parameter"
+              sequence="20"/>
+
+    <menuitem id="menu_tailoring_style_options"
+              name="Bespoke Style Options"
+              parent="menu_tailoring_config"
+              action="action_tailoring_style_option"
+              sequence="30"/>
+
+</odoo>

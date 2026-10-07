@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_style_option_tree" model="ir.ui.view">
+        <field name="name">tailoring.style.option.tree</field>
+        <field name="model">tailoring.style.option</field>
+        <field name="arch" type="xml">
+            <tree string="Bespoke Style Attributes">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="category"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_style_option_form" model="ir.ui.view">
+        <field name="name">tailoring.style.option.form</field>
+        <field name="model">tailoring.style.option</field>
+        <field name="arch" type="xml">
+            <form string="Bespoke Style Attribute">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Attribute Name"/>
+                        <h1><field name="name" placeholder="e.g. Lapel Construction"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" placeholder="e.g. LAPEL"/>
+                            <field name="category"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="garment_type_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Available Variations &amp; Surcharges" name="values">
+                            <field name="value_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="price_extra"/>
+                                    <field name="description"/>
+                                    <field name="active" widget="boolean_toggle"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tailoring_style_option" model="ir.actions.act_window">
+        <field name="name">Bespoke Styling Options</field>
+        <field name="res_model">tailoring.style.option</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

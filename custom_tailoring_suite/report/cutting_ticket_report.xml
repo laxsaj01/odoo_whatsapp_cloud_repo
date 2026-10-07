@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_cutting_ticket" model="ir.actions.report">
+        <field name="name">Workshop Cutting Ticket / Job Sheet</field>
+        <field name="model">tailoring.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">custom_tailoring_suite.report_cutting_ticket_template</field>
+        <field name="report_file">custom_tailoring_suite.report_cutting_ticket_template</field>
+        <field name="print_report_name">'Cutting_Ticket_' + (object.name or '').replace('/', '_')</field>
+        <field name="binding_model_id" ref="model_tailoring_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

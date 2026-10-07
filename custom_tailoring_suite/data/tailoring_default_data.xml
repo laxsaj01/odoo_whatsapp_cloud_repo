@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Measurement Parameters -->
+    <record id="param_chest" model="tailoring.measurement.parameter">
+        <field name="name">Full Chest Circumference</field>
+        <field name="code">CHEST</field>
+        <field name="sequence">10</field>
+        <field name="body_part">upper_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">25.0</field>
+        <field name="max_allowed_value">65.0</field>
+        <field name="help_instruction">Measure around the fullest part of the chest, keeping tape level under armpits.</field>
+    </record>
+
+    <record id="param_neck" model="tailoring.measurement.parameter">
+        <field name="name">Neck Circumference</field>
+        <field name="code">NECK</field>
+        <field name="sequence">20</field>
+        <field name="body_part">upper_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">12.0</field>
+        <field name="max_allowed_value">26.0</field>
+        <field name="help_instruction">Measure around the base of the neck where the collar sits comfortably.</field>
+    </record>
+
+    <record id="param_shoulder" model="tailoring.measurement.parameter">
+        <field name="name">Shoulder Width (Across Back)</field>
+        <field name="code">SHLDR</field>
+        <field name="sequence">30</field>
+        <field name="body_part">upper_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">12.0</field>
+        <field name="max_allowed_value">28.0</field>
+        <field name="help_instruction">Measure across the upper back from the tip of the left shoulder bone to right shoulder bone.</field>
+    </record>
+
+    <record id="param_sleeve" model="tailoring.measurement.parameter">
+        <field name="name">Sleeve Length</field>
+        <field name="code">SLEEVE</field>
+        <field name="sequence">40</field>
+        <field name="body_part">arm</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">20.0</field>
+        <field name="max_allowed_value">42.0</field>
+        <field name="help_instruction">From shoulder seam down to wrist bone with arm slightly bent.</field>
+    </record>
+
+    <record id="param_bicep" model="tailoring.measurement.parameter">
+        <field name="name">Bicep Circumference</field>
+        <field name="code">BICEP</field>
+        <field name="sequence">50</field>
+        <field name="body_part">arm</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">9.0</field>
+        <field name="max_allowed_value">26.0</field>
+        <field name="help_instruction">Measure around the widest point of the bicep muscle at rest.</field>
+    </record>
+
+    <record id="param_wrist" model="tailoring.measurement.parameter">
+        <field name="name">Wrist Circumference</field>
+        <field name="code">WRIST</field>
+        <field name="sequence">60</field>
+        <field name="body_part">arm</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">5.0</field>
+        <field name="max_allowed_value">12.0</field>
+        <field name="help_instruction">Measure around the wrist bone where the shirt or jacket cuff rests.</field>
+    </record>
+
+    <record id="param_jacket_length" model="tailoring.measurement.parameter">
+        <field name="name">Jacket Back Length</field>
+        <field name="code">JKT_LEN</field>
+        <field name="sequence">70</field>
+        <field name="body_part">torso</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">24.0</field>
+        <field name="max_allowed_value">40.0</field>
+        <field name="help_instruction">From base of collar down center back seam to desired jacket bottom hem.</field>
+    </record>
+
+    <record id="param_waist_jacket" model="tailoring.measurement.parameter">
+        <field name="name">Natural Waist / Midsection</field>
+        <field name="code">WAIST_NAT</field>
+        <field name="sequence">80</field>
+        <field name="body_part">torso</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">24.0</field>
+        <field name="max_allowed_value">65.0</field>
+        <field name="help_instruction">Measure around natural waistline (navel level) where coat button fastens.</field>
+    </record>
+
+    <record id="param_trouser_waist" model="tailoring.measurement.parameter">
+        <field name="name">Trouser Waist</field>
+        <field name="code">TR_WAIST</field>
+        <field name="sequence">90</field>
+        <field name="body_part">lower_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">24.0</field>
+        <field name="max_allowed_value">65.0</field>
+        <field name="help_instruction">Measure where the customer prefers to wear their trousers waistband.</field>
+    </record>
+
+    <record id="param_hips" model="tailoring.measurement.parameter">
+        <field name="name">Hips / Seat Circumference</field>
+        <field name="code">SEAT_HIPS</field>
+        <field name="sequence">100</field>
+        <field name="body_part">lower_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">28.0</field>
+        <field name="max_allowed_value">70.0</field>
+        <field name="help_instruction">Measure around the widest part of the buttocks / seat.</field>
+    </record>
+
+    <record id="param_outseam" model="tailoring.measurement.parameter">
+        <field name="name">Trouser Outseam Length</field>
+        <field name="code">OUTSEAM</field>
+        <field name="sequence">110</field>
+        <field name="body_part">leg</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">32.0</field>
+        <field name="max_allowed_value">52.0</field>
+        <field name="help_instruction">From top of waistband down the outside leg seam to shoe heel level.</field>
+    </record>
+
+    <record id="param_inseam" model="tailoring.measurement.parameter">
+        <field name="name">Trouser Inseam Length</field>
+        <field name="code">INSEAM</field>
+        <field name="sequence">120</field>
+        <field name="body_part">leg</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">24.0</field>
+        <field name="max_allowed_value">42.0</field>
+        <field name="help_instruction">From bottom of crotch seam down inner leg to bottom hem.</field>
+    </record>
+
+    <record id="param_thigh" model="tailoring.measurement.parameter">
+        <field name="name">Thigh Circumference</field>
+        <field name="code">THIGH</field>
+        <field name="sequence">130</field>
+        <field name="body_part">leg</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">16.0</field>
+        <field name="max_allowed_value">36.0</field>
+        <field name="help_instruction">Measure around the fullest part of the upper thigh.</field>
+    </record>
+
+    <record id="param_knee" model="tailoring.measurement.parameter">
+        <field name="name">Knee Circumference</field>
+        <field name="code">KNEE</field>
+        <field name="sequence">140</field>
+        <field name="body_part">leg</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">12.0</field>
+        <field name="max_allowed_value">26.0</field>
+        <field name="help_instruction">Measure around knee midpoint with leg straight.</field>
+    </record>
+
+    <record id="param_bottom_hem" model="tailoring.measurement.parameter">
+        <field name="name">Trouser Bottom Leg Opening</field>
+        <field name="code">BOT_HEM</field>
+        <field name="sequence">150</field>
+        <field name="body_part">leg</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">12.0</field>
+        <field name="max_allowed_value">24.0</field>
+        <field name="help_instruction">Desired total circumference of trouser leg opening.</field>
+    </record>
+
+    <record id="param_crotch_rise" model="tailoring.measurement.parameter">
+        <field name="name">Total Crotch / Rise</field>
+        <field name="code">CROTCH_RISE</field>
+        <field name="sequence">160</field>
+        <field name="body_part">lower_body</field>
+        <field name="default_unit">inch</field>
+        <field name="min_allowed_value">20.0</field>
+        <field name="max_allowed_value">38.0</field>
+        <field name="help_instruction">From front waistband down through crotch to back waistband.</field>
+    </record>
+
+    <!-- Style Options -->
+    <record id="style_lapel" model="tailoring.style.option">
+        <field name="name">Lapel Construction</field>
+        <field name="code">LAPEL</field>
+        <field name="sequence">10</field>
+        <field name="category">lapel</field>
+    </record>
+
+    <record id="val_lapel_notch" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lapel"/>
+        <field name="name">Standard Notch Lapel (3.25")</field>
+        <field name="code">NOTCH_STD</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+        <field name="description">Classic versatile business lapel</field>
+    </record>
+
+    <record id="val_lapel_peak" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lapel"/>
+        <field name="name">Wide Peak Lapel (3.75")</field>
+        <field name="code">PEAK_WIDE</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">25.0</field>
+        <field name="description">Commanding, stylish sartorial peak lapel</field>
+    </record>
+
+    <record id="val_lapel_shawl" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lapel"/>
+        <field name="name">Satin Shawl Lapel (Formal)</field>
+        <field name="code">SHAWL_SATIN</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">45.0</field>
+        <field name="description">Continuous curved satin lapel for tuxedos</field>
+    </record>
+
+    <record id="style_closure" model="tailoring.style.option">
+        <field name="name">Closure &amp; Button Stance</field>
+        <field name="code">CLOSURE</field>
+        <field name="sequence">20</field>
+        <field name="category">buttons</field>
+    </record>
+
+    <record id="val_closure_sb2" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_closure"/>
+        <field name="name">Single Breasted 2-Button</field>
+        <field name="code">SB_2B</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_closure_sb1" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_closure"/>
+        <field name="name">Single Breasted 1-Button (Tuxedo)</field>
+        <field name="code">SB_1B</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_closure_db62" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_closure"/>
+        <field name="name">Double Breasted 6x2 (Classic Sartorial)</field>
+        <field name="code">DB_6X2</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">50.0</field>
+    </record>
+
+    <record id="style_vents" model="tailoring.style.option">
+        <field name="name">Jacket Back Vents</field>
+        <field name="code">VENTS</field>
+        <field name="sequence">30</field>
+        <field name="category">vents</field>
+    </record>
+
+    <record id="val_vents_double" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_vents"/>
+        <field name="name">Double Side Vents (British Style)</field>
+        <field name="code">VENTS_DOUBLE</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_vents_center" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_vents"/>
+        <field name="name">Single Center Vent (American Style)</field>
+        <field name="code">VENTS_CENTER</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_vents_none" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_vents"/>
+        <field name="name">No Vents (Italian / Formal Dinner)</field>
+        <field name="code">VENTS_NONE</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="style_lining" model="tailoring.style.option">
+        <field name="name">Interior Lining &amp; Canvas</field>
+        <field name="code">LINING</field>
+        <field name="sequence">40</field>
+        <field name="category">lining</field>
+    </record>
+
+    <record id="val_lining_full" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lining"/>
+        <field name="name">Full Bemberg Silk Lining</field>
+        <field name="code">LIN_FULL_BEMBERG</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_lining_half" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lining"/>
+        <field name="name">Half-Lined Soft Construction</field>
+        <field name="code">LIN_HALF</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">30.0</field>
+    </record>
+
+    <record id="val_lining_custom" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_lining"/>
+        <field name="name">Custom Artwork / Jacquard Silk Lining</field>
+        <field name="code">LIN_ARTWORK</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">75.0</field>
+    </record>
+
+    <record id="style_trouser_pleats" model="tailoring.style.option">
+        <field name="name">Trouser Front Pleats</field>
+        <field name="code">TR_PLEATS</field>
+        <field name="sequence">50</field>
+        <field name="category">trouser_pleats</field>
+    </record>
+
+    <record id="val_pleats_flat" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_pleats"/>
+        <field name="name">Flat Front (No Pleat - Modern Slim)</field>
+        <field name="code">PLEAT_FLAT</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_pleats_single" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_pleats"/>
+        <field name="name">Single Forward Pleat</field>
+        <field name="code">PLEAT_SINGLE</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">15.0</field>
+    </record>
+
+    <record id="val_pleats_double" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_pleats"/>
+        <field name="name">Double Deep Pleats (High-Rise Sartorial)</field>
+        <field name="code">PLEAT_DOUBLE</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">25.0</field>
+    </record>
+
+    <record id="style_trouser_hem" model="tailoring.style.option">
+        <field name="name">Trouser Leg Hem Finish</field>
+        <field name="code">TR_HEM</field>
+        <field name="sequence">60</field>
+        <field name="category">trouser_pleats</field>
+    </record>
+
+    <record id="val_hem_plain" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_hem"/>
+        <field name="name">Plain Hem (Slanted European Break)</field>
+        <field name="code">HEM_PLAIN</field>
+        <field name="sequence">10</field>
+        <field name="price_extra">0.0</field>
+    </record>
+
+    <record id="val_hem_cuff175" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_hem"/>
+        <field name="name">1.75 inch Cuffs / Turn-ups</field>
+        <field name="code">HEM_CUFF_175</field>
+        <field name="sequence">20</field>
+        <field name="price_extra">15.0</field>
+    </record>
+
+    <record id="val_hem_cuff20" model="tailoring.style.option.value">
+        <field name="option_id" ref="style_trouser_hem"/>
+        <field name="name">2.0 inch Bold Sartorial Cuffs</field>
+        <field name="code">HEM_CUFF_20</field>
+        <field name="sequence">30</field>
+        <field name="price_extra">15.0</field>
+    </record>
+
+    <!-- Master Garment Types -->
+    <record id="garment_suit_2pc" model="tailoring.garment.type">
+        <field name="name">2-Piece Bespoke Suit (Jacket &amp; Trousers)</field>
+        <field name="code">SUIT_2PC</field>
+        <field name="sequence">10</field>
+        <field name="category">suit</field>
+        <field name="default_lead_time_days">21</field>
+        <field name="estimated_labor_hours">28.0</field>
+        <field name="standard_fabric_meters">3.5</field>
+        <field name="parameter_ids" eval="[(6, 0, [
+            ref('param_chest'), ref('param_neck'), ref('param_shoulder'),
+            ref('param_sleeve'), ref('param_bicep'), ref('param_wrist'),
+            ref('param_jacket_length'), ref('param_waist_jacket'),
+            ref('param_trouser_waist'), ref('param_hips'), ref('param_outseam'),
+            ref('param_inseam'), ref('param_thigh'), ref('param_knee'),
+            ref('param_bottom_hem'), ref('param_crotch_rise')
+        ])]"/>
+        <field name="style_option_ids" eval="[(6, 0, [
+            ref('style_lapel'), ref('style_closure'), ref('style_vents'),
+            ref('style_lining'), ref('style_trouser_pleats'), ref('style_trouser_hem')
+        ])]"/>
+        <field name="description">Bespoke 2-piece suit with full horsehair floating canvas and hand-finished pick stitching.</field>
+    </record>
+
+    <record id="garment_shirt_dress" model="tailoring.garment.type">
+        <field name="name">Bespoke Custom Dress Shirt</field>
+        <field name="code">SHIRT_DRESS</field>
+        <field name="sequence">20</field>
+        <field name="category">shirt</field>
+        <field name="default_lead_time_days">10</field>
+        <field name="estimated_labor_hours">6.0</field>
+        <field name="standard_fabric_meters">2.0</field>
+        <field name="parameter_ids" eval="[(6, 0, [
+            ref('param_neck'), ref('param_chest'), ref('param_waist_jacket'),
+            ref('param_shoulder'), ref('param_sleeve'), ref('param_bicep'), ref('param_wrist')
+        ])]"/>
+        <field name="description">Custom luxury dress shirt with mother-of-pearl buttons and split yoke.</field>
+    </record>
+
+    <record id="garment_trousers" model="tailoring.garment.type">
+        <field name="name">Bespoke Tailored Trousers</field>
+        <field name="code">TROUSERS</field>
+        <field name="sequence">30</field>
+        <field name="category">trouser</field>
+        <field name="default_lead_time_days">12</field>
+        <field name="estimated_labor_hours">8.0</field>
+        <field name="standard_fabric_meters">1.6</field>
+        <field name="parameter_ids" eval="[(6, 0, [
+            ref('param_trouser_waist'), ref('param_hips'), ref('param_outseam'),
+            ref('param_inseam'), ref('param_thigh'), ref('param_knee'),
+            ref('param_bottom_hem'), ref('param_crotch_rise')
+        ])]"/>
+        <field name="style_option_ids" eval="[(6, 0, [
+            ref('style_trouser_pleats'), ref('style_trouser_hem')
+        ])]"/>
+        <field name="description">Custom fitted trousers with side adjusters, curtain waistband and hand-basted cuffs.</field>
+    </record>
+
+    <record id="garment_tuxedo" model="tailoring.garment.type">
+        <field name="name">Bespoke Black Tie Tuxedo / Dinner Suit</field>
+        <field name="code">TUXEDO_DINNER</field>
+        <field name="sequence">40</field>
+        <field name="category">suit</field>
+        <field name="default_lead_time_days">28</field>
+        <field name="estimated_labor_hours">32.0</field>
+        <field name="standard_fabric_meters">3.8</field>
+        <field name="parameter_ids" eval="[(6, 0, [
+            ref('param_chest'), ref('param_neck'), ref('param_shoulder'),
+            ref('param_sleeve'), ref('param_bicep'), ref('param_wrist'),
+            ref('param_jacket_length'), ref('param_waist_jacket'),
+            ref('param_trouser_waist'), ref('param_hips'), ref('param_outseam'),
+            ref('param_inseam'), ref('param_thigh'), ref('param_knee'),
+            ref('param_bottom_hem'), ref('param_crotch_rise')
+        ])]"/>
+        <field name="style_option_ids" eval="[(6, 0, [
+            ref('style_lapel'), ref('style_closure'), ref('style_vents'),
+            ref('style_lining'), ref('style_trouser_pleats'), ref('style_trouser_hem')
+        ])]"/>
+        <field name="description">Bespoke tuxedo with silk grosgrain/satin facings, jetted pockets, and satin trouser galloon stripe.</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="module_category_tailoring" model="ir.module.category">
+        <field name="name">Custom Tailoring &amp; Bespoke</field>
+        <field name="description">Manage bespoke tailoring workshops, measurements, fittings, and cutting tickets.</field>
+        <field name="sequence">25</field>
+    </record>
+
+    <record id="group_tailoring_user" model="res.groups">
+        <field name="name">Tailor / Pattern Cutter</field>
+        <field name="category_id" ref="module_category_tailoring"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_tailoring_manager" model="res.groups">
+        <field name="name">Master Tailor / Atelier Manager</field>
+        <field name="category_id" ref="module_category_tailoring"/>
+        <field name="implied_ids" eval="[(4, ref('group_tailoring_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

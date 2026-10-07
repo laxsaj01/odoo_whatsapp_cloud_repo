@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_cutting_ticket_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 13px; color: #1e293b;">
+
+                        <!-- Header Title -->
+                        <div style="border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 20px;">
+                            <div class="row align-items-center">
+                                <div class="col-7">
+                                    <h2 style="font-weight: 800; text-transform: uppercase; margin: 0; color: #0f172a; letter-spacing: 1px;">
+                                        Workshop Cutting Ticket
+                                    </h2>
+                                    <div style="font-size: 14px; font-weight: 600; color: #64748b; margin-top: 4px;">
+                                        Bespoke Atelier Job Sheet &amp; Artisan Instructions
+                                    </div>
+                                </div>
+                                <div class="col-5 text-end">
+                                    <div style="font-size: 20px; font-weight: 800; color: #0284c7;">
+                                        <span t-field="doc.name"/>
+                                    </div>
+                                    <div style="margin-top: 4px;">
+                                        <span class="badge" style="background-color: #0f172a; color: #ffffff; padding: 4px 10px; border-radius: 4px; font-size: 11px;">
+                                            Target Due: <span t-field="doc.delivery_date"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Client & Job Metadata Grid -->
+                        <div class="row mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin: 0;">
+                            <div class="col-4">
+                                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Client Name</div>
+                                <div style="font-size: 15px; font-weight: 700; color: #0f172a;"><span t-field="doc.partner_id.name"/></div>
+                                <div class="small text-muted"><span t-field="doc.partner_id.phone"/></div>
+                            </div>
+                            <div class="col-4">
+                                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Garment Type</div>
+                                <div style="font-size: 15px; font-weight: 700; color: #0f172a;"><span t-field="doc.garment_type_id.name"/></div>
+                                <div class="small text-muted">Order Date: <span t-field="doc.order_date"/></div>
+                            </div>
+                            <div class="col-4">
+                                <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Artisan Team</div>
+                                <div><strong>Cutter:</strong> <span t-field="doc.cutter_id.name"/></div>
+                                <div><strong>Tailor:</strong> <span t-field="doc.tailor_id.name"/></div>
+                            </div>
+                        </div>
+
+                        <!-- Fabric & Posture Grid -->
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; height: 100%;">
+                                    <h6 style="font-weight: 700; text-transform: uppercase; color: #0f172a; margin-bottom: 8px; font-size: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">
+                                        Fabric &amp; Trims Allocation
+                                    </h6>
+                                    <div><strong>Cloth:</strong> <span t-field="doc.fabric_product_id.name"/></div>
+                                    <div><strong>Batch / Lot #:</strong> <span t-field="doc.fabric_lot_number"/></div>
+                                    <div><strong>Consumed:</strong> <span t-field="doc.fabric_meterage_required"/> Meters</div>
+                                    <div><strong>Lining:</strong> <span t-field="doc.lining_product_id.name"/></div>
+                                    <div><strong>Buttons:</strong> <span t-field="doc.button_spec"/></div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; height: 100%;">
+                                    <h6 style="font-weight: 700; text-transform: uppercase; color: #0f172a; margin-bottom: 8px; font-size: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px;">
+                                        Anatomical Posture &amp; Shape
+                                    </h6>
+                                    <div><strong>Posture:</strong> <span t-field="doc.measurement_id.posture_profile"/></div>
+                                    <div><strong>Shoulder Slope:</strong> <span t-field="doc.measurement_id.shoulder_slope"/></div>
+                                    <div><strong>Chest Shape:</strong> <span t-field="doc.measurement_id.chest_shape"/></div>
+                                    <div><strong>Stomach Profile:</strong> <span t-field="doc.measurement_id.stomach_profile"/></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Measurements Table -->
+                        <div class="mb-4">
+                            <h6 style="font-weight: 700; text-transform: uppercase; color: #0f172a; margin-bottom: 8px; font-size: 12px; letter-spacing: 0.5px;">
+                                Cutting Measurements (Unit: <span t-field="doc.measurement_unit"/>)
+                            </h6>
+                            <table class="table table-sm table-bordered" style="width: 100%; border-color: #cbd5e1; font-size: 12px;">
+                                <thead style="background-color: #f1f5f9;">
+                                    <tr>
+                                        <th style="padding: 6px;">Body Parameter</th>
+                                        <th style="padding: 6px;">Region</th>
+                                        <th class="text-center" style="padding: 6px;">Raw (in/cm)</th>
+                                        <th class="text-center" style="padding: 6px;">Fitting Adj (±)</th>
+                                        <th class="text-center" style="padding: 6px; font-weight: 800; background-color: #e2e8f0;">Finished Cut</th>
+                                        <th style="padding: 6px;">Tailor Notes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.measurement_id.line_ids" t-as="mline">
+                                        <tr>
+                                            <td style="padding: 5px;"><strong><span t-field="mline.parameter_id.name"/></strong></td>
+                                            <td style="padding: 5px; color: #64748b;"><span t-field="mline.body_part"/></td>
+                                            <td class="text-center" style="padding: 5px;"><span t-field="mline.value"/></td>
+                                            <td class="text-center" style="padding: 5px;"><span t-field="mline.alteration_adjustment"/></td>
+                                            <td class="text-center" style="padding: 5px; font-weight: 800; background-color: #f8fafc;">
+                                                <span t-field="mline.final_value"/>
+                                            </td>
+                                            <td style="padding: 5px; font-size: 11px; color: #64748b;"><span t-field="mline.notes"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Bespoke Styling & Monogram Section -->
+                        <div class="row mb-4">
+                            <div class="col-7">
+                                <h6 style="font-weight: 700; text-transform: uppercase; color: #0f172a; margin-bottom: 8px; font-size: 12px;">
+                                    Bespoke Style Specifications
+                                </h6>
+                                <table class="table table-sm table-bordered" style="font-size: 11px;">
+                                    <thead style="background-color: #f1f5f9;">
+                                        <tr>
+                                            <th>Style Attribute</th>
+                                            <th>Chosen Option</th>
+                                            <th>Workshop Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.style_line_ids" t-as="sline">
+                                            <tr>
+                                                <td><span t-field="sline.option_id.name"/></td>
+                                                <td><strong><span t-field="sline.value_id.name"/></strong></td>
+                                                <td><span t-field="sline.notes"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-5">
+                                <t t-if="doc.monogram_required">
+                                    <div style="border: 2px dashed #d97706; background-color: #fffbeb; border-radius: 8px; padding: 12px;">
+                                        <h6 style="font-weight: 700; color: #92400e; margin-bottom: 8px; font-size: 12px; text-transform: uppercase;">
+                                            ★ Custom Monogram Specification
+                                        </h6>
+                                        <div style="font-size: 16px; font-weight: 800; color: #92400e; margin-bottom: 6px;">
+                                            "<span t-field="doc.monogram_text"/>"
+                                        </div>
+                                        <div class="small"><strong>Font Style:</strong> <span t-field="doc.monogram_font"/></div>
+                                        <div class="small"><strong>Thread Color:</strong> <span t-field="doc.monogram_color"/></div>
+                                        <div class="small"><strong>Placement:</strong> <span t-field="doc.monogram_placement"/></div>
+                                    </div>
+                                </t>
+                                <t t-if="not doc.monogram_required">
+                                    <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; color: #64748b; font-size: 12px;">
+                                        <em>No Monogram Requested</em>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+
+                        <!-- Master Instructions & Sign-off -->
+                        <div style="border-top: 2px solid #0f172a; padding-top: 15px; margin-top: 20px;">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div style="font-weight: 700; font-size: 11px; text-transform: uppercase; color: #64748b; margin-bottom: 4px;">
+                                        Master Cutter Instructions
+                                    </div>
+                                    <div style="font-size: 12px; color: #1e293b; min-height: 40px;">
+                                        <span t-field="doc.workshop_instructions"/>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="row text-center mt-3">
+                                        <div class="col-6">
+                                            <div style="border-bottom: 1px solid #000; min-height: 35px;"></div>
+                                            <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Master Cutter Sign</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div style="border-bottom: 1px solid #000; min-height: 35px;"></div>
+                                            <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; margin-top: 4px;">Quality Passed Sign</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

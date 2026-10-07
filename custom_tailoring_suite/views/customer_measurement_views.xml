@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tailoring_customer_measurement_tree" model="ir.ui.view">
+        <field name="name">tailoring.customer.measurement.tree</field>
+        <field name="model">tailoring.customer.measurement</field>
+        <field name="arch" type="xml">
+            <tree string="Client Measurement Profiles">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <field name="date_measured"/>
+                <field name="measurement_unit"/>
+                <field name="measured_by_id" widget="many2one_avatar_user"/>
+                <field name="posture_profile"/>
+                <field name="shoulder_slope"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_tailoring_customer_measurement_form" model="ir.ui.view">
+        <field name="name">tailoring.customer.measurement.form</field>
+        <field name="model">tailoring.customer.measurement</field>
+        <field name="arch" type="xml">
+            <form string="Client Measurement Profile">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Measurement Profile"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group name="client_info">
+                            <field name="partner_id" options="{'no_create': True}"/>
+                            <field name="garment_type_id"/>
+                            <field name="date_measured"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group name="measurement_meta">
+                            <field name="measured_by_id"/>
+                            <field name="measurement_unit" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                    </group>
+
+                    <group string="Anatomical &amp; Postural Profiling (Bespoke Pattern Cut)">
+                        <group>
+                            <field name="posture_profile"/>
+                            <field name="shoulder_slope"/>
+                        </group>
+                        <group>
+                            <field name="chest_shape"/>
+                            <field name="stomach_profile"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Body Measurements" name="measurements">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="parameter_id"/>
+                                    <field name="body_part"/>
+                                    <field name="value" string="Raw Value"/>
+                                    <field name="alteration_adjustment" string="Fitting Adjustment (±)"/>
+                                    <field name="final_value" string="Finished Measurement" readonly="1" decoration-bf="1"/>
+                                    <field name="unit"/>
+                                    <field name="notes" placeholder="e.g. Low right arm, extra 0.5 in ease"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Cutter Notes &amp; Fit Preferences" name="notes">
+                            <field name="notes" placeholder="Describe client preferences: tight athletic fit vs drape cut, high-rise vs low-rise..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tailoring_customer_measurement_search" model="ir.ui.view">
+        <field name="name">tailoring.customer.measurement.search</field>
+        <field name="model">tailoring.customer.measurement</field>
+        <field name="arch" type="xml">
+            <search string="Search Measurement Profiles">
+                <field name="partner_id"/>
+                <field name="garment_type_id"/>
+                <field name="name"/>
+                <group expand="0" string="Group By">
+                    <filter string="Client" name="grp_partner" context="{'group_by': 'partner_id'}"/>
+                    <filter string="Garment Type" name="grp_garment" context="{'group_by': 'garment_type_id'}"/>
+                    <filter string="Measurement Date" name="grp_date" context="{'group_by': 'date_measured'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_tailoring_customer_measurement" model="ir.actions.act_window">
+        <field name="name">Client Measurements</field>
+        <field name="res_model">tailoring.customer.measurement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_tailoring_customer_measurement_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Record comprehensive body measurements and anatomical posture profiles for your clients.
+            </p>
+        </field>
+    </record>
+
+</odoo>
