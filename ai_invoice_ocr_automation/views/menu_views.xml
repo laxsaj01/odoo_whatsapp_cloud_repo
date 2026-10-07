@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root App Menu -->
+    <menuitem id="menu_ai_ocr_root"
+              name="AI Invoice OCR"
+              sequence="67"
+              web_icon="ai_invoice_ocr_automation,static/description/icon.png"/>
+
+    <!-- Operations Submenus -->
+    <menuitem id="menu_ai_ocr_scan"
+              name="Scan Document"
+              parent="menu_ai_ocr_root"
+              action="action_ai_invoice_ocr_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_ai_ocr_queue_list"
+              name="OCR Batch Queue"
+              parent="menu_ai_ocr_root"
+              action="action_ai_ocr_queue"
+              sequence="20"/>
+
+    <!-- Configuration Submenus -->
+    <menuitem id="menu_ai_ocr_config_parent"
+              name="Configuration"
+              parent="menu_ai_ocr_root"
+              groups="group_ai_ocr_manager"
+              sequence="100"/>
+
+    <menuitem id="menu_ai_ocr_providers"
+              name="AI Providers"
+              parent="menu_ai_ocr_config_parent"
+              action="action_ai_ocr_provider"
+              sequence="10"/>
+
+    <menuitem id="menu_ai_ocr_settings"
+              name="Settings"
+              parent="menu_ai_ocr_config_parent"
+              action="action_ai_ocr_config_settings"
+              sequence="20"/>
+</odoo>

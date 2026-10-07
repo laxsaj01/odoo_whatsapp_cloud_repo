@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit_ai_ocr" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.ai.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_scan_ai_ocr" string="AI OCR Scan" type="object" class="btn-primary" icon="fa-magic" 
+                        invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt') or state != 'draft'"/>
+                <button name="action_open_ocr_wizard" string="Upload Invoice (AI)" type="object" class="btn-secondary" icon="fa-upload" 
+                        invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt') or state != 'draft'"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="ocr_status" widget="badge" 
+                       invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                       decoration-success="ocr_status == 'scanned'" 
+                       decoration-danger="ocr_status == 'failed'" 
+                       decoration-muted="ocr_status == 'not_scanned'"/>
+                <field name="ocr_confidence_score" widget="progressbar" 
+                       invisible="ocr_status != 'scanned'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_in_invoice_bill_tree_inherit_ai_ocr" model="ir.ui.view">
+        <field name="name">account.move.tree.inherit.ai.ocr</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_in_invoice_bill_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="ocr_status" widget="badge" optional="show"
+                       decoration-success="ocr_status == 'scanned'" 
+                       decoration-danger="ocr_status == 'failed'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

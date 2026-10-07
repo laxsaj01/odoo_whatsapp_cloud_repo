@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_ocr_queue_tree" model="ir.ui.view">
+        <field name="name">ai.ocr.queue.tree</field>
+        <field name="model">ai.ocr.queue</field>
+        <field name="arch" type="xml">
+            <tree string="AI OCR Queue" decoration-success="state == 'done'" decoration-danger="state == 'failed'" decoration-warning="state == 'queued'">
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="provider_id"/>
+                <field name="move_id"/>
+                <field name="confidence_score" widget="progressbar"/>
+                <field name="create_date" string="Queued At"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'done'" 
+                       decoration-danger="state == 'failed'" 
+                       decoration-warning="state == 'queued'" 
+                       decoration-info="state == 'processing'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ai_ocr_queue_form" model="ir.ui.view">
+        <field name="name">ai.ocr.queue.form</field>
+        <field name="model">ai.ocr.queue</field>
+        <field name="arch" type="xml">
+            <form string="AI OCR Queue Record">
+                <header>
+                    <button name="action_process_now" string="Process Now" type="object" class="btn-primary" icon="fa-magic" invisible="state in ('done', 'processing')"/>
+                    <button name="action_retry" string="Reset &amp; Retry" type="object" class="btn-warning" icon="fa-repeat" invisible="state != 'failed'"/>
+                    <button name="action_view_move" string="View Vendor Bill" type="object" class="btn-secondary" icon="fa-file-text-o" invisible="not move_id"/>
+                    <field name="state" widget="statusbar" statusbar_visible="queued,processing,done"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'failed'">
+                        <strong>Extraction Error:</strong><br/>
+                        <field name="error_log" readonly="1"/>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Source Document">
+                            <field name="attachment_id"/>
+                            <field name="file_name"/>
+                            <field name="provider_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Output &amp; Accuracy">
+                            <field name="move_id"/>
+                            <field name="confidence_score" widget="progressbar"/>
+                            <field name="create_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Extracted Structured Data (JSON)" name="json_page">
+                            <field name="raw_json" readonly="1" placeholder="Extracted JSON payload will appear here..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_ai_ocr_queue_search" model="ir.ui.view">
+        <field name="name">ai.ocr.queue.search</field>
+        <field name="model">ai.ocr.queue</field>
+        <field name="arch" type="xml">
+            <search string="Search Queue">
+                <field name="name"/>
+                <field name="file_name"/>
+                <field name="move_id"/>
+                <filter name="queued" string="Pending" domain="[('state', '=', 'queued')]"/>
+                <filter name="done" string="Completed" domain="[('state', '=', 'done')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_provider" string="Provider" context="{'group_by': 'provider_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ai_ocr_queue" model="ir.actions.act_window">
+        <field name="name">OCR Queue</field>
+        <field name="res_model">ai.ocr.queue</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_ai_ocr_queue_search"/>
+        <field name="context">{'search_default_queued': 1}</field>
+    </record>
+</odoo>

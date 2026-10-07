@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_ocr_provider_tree" model="ir.ui.view">
+        <field name="name">ai.ocr.provider.tree</field>
+        <field name="model">ai.ocr.provider</field>
+        <field name="arch" type="xml">
+            <tree string="AI OCR Providers" decoration-success="state == 'connected'" decoration-danger="state == 'error'">
+                <field name="name"/>
+                <field name="provider" widget="badge"/>
+                <field name="model_name"/>
+                <field name="is_default" widget="boolean_toggle"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="last_test_date"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'connected'" 
+                       decoration-danger="state == 'error'" 
+                       decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ai_ocr_provider_form" model="ir.ui.view">
+        <field name="name">ai.ocr.provider.form</field>
+        <field name="model">ai.ocr.provider</field>
+        <field name="arch" type="xml">
+            <form string="AI OCR Provider">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="btn-primary" icon="fa-bolt"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Connected" bg_color="bg-success" invisible="state != 'connected'"/>
+                    <widget name="web_ribbon" title="Auth Error" bg_color="bg-danger" invisible="state != 'error'"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Production GPT-4o Vision"/></h1>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <strong>BYOK (Bring Your Own Key) Advantage:</strong><br/>
+                        Connect directly to OpenAI, Anthropic, or Google. You only pay standard API tokens (average ~$0.003 - $0.008 per invoice) with <strong>Zero Middleman/IAP Markups</strong>!
+                    </div>
+
+                    <group>
+                        <group string="AI Engine Selection">
+                            <field name="provider"/>
+                            <field name="model_name"/>
+                            <field name="is_default"/>
+                        </group>
+                        <group string="Authentication &amp; Scope">
+                            <field name="api_key" password="True" placeholder="sk-proj-... / sk-ant-..."/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="last_test_date" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_ocr_provider" model="ir.actions.act_window">
+        <field name="name">AI OCR Providers</field>
+        <field name="res_model">ai.ocr.provider</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your OpenAI or Claude Vision API Key to start scanning invoices!
+            </p>
+        </field>
+    </record>
+</odoo>

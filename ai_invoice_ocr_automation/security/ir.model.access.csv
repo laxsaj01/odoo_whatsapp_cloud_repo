@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ai_ocr_provider_user,ai.ocr.provider.user,model_ai_ocr_provider,group_ai_ocr_user,1,0,0,0
+access_ai_ocr_provider_manager,ai.ocr.provider.manager,model_ai_ocr_provider,group_ai_ocr_manager,1,1,1,1
+access_ai_ocr_queue_user,ai.ocr.queue.user,model_ai_ocr_queue,group_ai_ocr_user,1,1,1,0
+access_ai_ocr_queue_manager,ai.ocr.queue.manager,model_ai_ocr_queue,group_ai_ocr_manager,1,1,1,1
+access_ai_invoice_ocr_wizard_user,ai.invoice.ocr.wizard.user,model_ai_invoice_ocr_wizard,group_ai_ocr_user,1,1,1,1
+access_ai_invoice_ocr_wizard_manager,ai.invoice.ocr.wizard.manager,model_ai_invoice_ocr_wizard,group_ai_ocr_manager,1,1,1,1

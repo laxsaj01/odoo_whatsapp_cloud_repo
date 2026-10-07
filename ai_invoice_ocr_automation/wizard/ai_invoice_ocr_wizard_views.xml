@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ai_invoice_ocr_wizard_form" model="ir.ui.view">
+        <field name="name">ai.invoice.ocr.wizard.form</field>
+        <field name="model">ai.invoice.ocr.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Scan &amp; Extract Invoice with AI">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Upload any supplier invoice PDF, receipt photo, or document. The AI Vision model will extract vendor details, dates, line items, and tax percentages into a draft Vendor Bill.
+                    </div>
+                    <group>
+                        <group string="Upload Invoice Document">
+                            <field name="file_data" filename="file_name" widget="binary"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="execution_mode" widget="radio"/>
+                        </group>
+                        <group string="Target Accounting Setup">
+                            <field name="provider_id"/>
+                            <field name="journal_id"/>
+                            <field name="move_id" invisible="not move_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_process" string="Extract with AI Vision" type="object" class="btn-primary" icon="fa-magic"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ai_invoice_ocr_wizard" model="ir.actions.act_window">
+        <field name="name">Upload &amp; Scan Invoice</field>
+        <field name="res_model">ai.invoice.ocr.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
