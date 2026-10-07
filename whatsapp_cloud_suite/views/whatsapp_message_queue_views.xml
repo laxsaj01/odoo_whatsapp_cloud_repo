@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whatsapp_message_queue_tree" model="ir.ui.view">
+        <field name="name">whatsapp.message.queue.tree</field>
+        <field name="model">whatsapp.message.queue</field>
+        <field name="arch" type="xml">
+            <tree string="Message Queue" decoration-success="state == 'sent'" decoration-info="state in ('delivered', 'read')" decoration-danger="state == 'failed'" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="partner_id"/>
+                <field name="recipient_phone"/>
+                <field name="message_type"/>
+                <field name="scheduled_date"/>
+                <field name="sent_date"/>
+                <field name="retry_count"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state in ('sent', 'delivered', 'read')" 
+                       decoration-warning="state == 'queued'" 
+                       decoration-danger="state == 'failed'" 
+                       decoration-muted="state in ('draft', 'cancelled')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_message_queue_form" model="ir.ui.view">
+        <field name="name">whatsapp.message.queue.form</field>
+        <field name="model">whatsapp.message.queue</field>
+        <field name="arch" type="xml">
+            <form string="Queued WhatsApp Message">
+                <header>
+                    <button name="action_send_now" string="Send Now" type="object" class="btn-primary" icon="fa-paper-plane" invisible="state not in ('draft', 'queued', 'failed')"/>
+                    <button name="action_retry" string="Reset &amp; Retry" type="object" class="btn-warning" icon="fa-repeat" invisible="state != 'failed'"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="btn-secondary" invisible="state not in ('draft', 'queued')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="queued,sent,delivered,read"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'failed'">
+                        <strong>Delivery Failure:</strong><br/>
+                        <field name="last_error" readonly="1"/>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+
+                    <group>
+                        <group string="Routing &amp; Recipient">
+                            <field name="account_id"/>
+                            <field name="partner_id"/>
+                            <field name="recipient_phone"/>
+                            <field name="message_type"/>
+                            <field name="template_id" invisible="message_type != 'template'"/>
+                        </group>
+                        <group string="Timestamps &amp; Tracking">
+                            <field name="scheduled_date"/>
+                            <field name="sent_date"/>
+                            <field name="retry_count"/>
+                            <field name="meta_message_id" readonly="1"/>
+                            <field name="model_name" readonly="1" groups="base.group_no_one"/>
+                            <field name="res_id" readonly="1" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Message Content" name="content_page">
+                            <field name="message_body" placeholder="Message content payload..."/>
+                        </page>
+                        <page string="Media &amp; Attachment" name="media_page" invisible="message_type not in ('media', 'template')">
+                            <group>
+                                <field name="media_type"/>
+                                <field name="attachment_id"/>
+                                <field name="media_url"/>
+                            </group>
+                        </page>
+                        <page string="Interactive Data" name="interactive_page" invisible="message_type != 'interactive'">
+                            <field name="interactive_payload"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_whatsapp_message_queue_search" model="ir.ui.view">
+        <field name="name">whatsapp.message.queue.search</field>
+        <field name="model">whatsapp.message.queue</field>
+        <field name="arch" type="xml">
+            <search string="Search Queue">
+                <field name="recipient_phone"/>
+                <field name="partner_id"/>
+                <field name="meta_message_id"/>
+                <filter name="queued" string="In Queue" domain="[('state', '=', 'queued')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <filter name="sent" string="Sent / Delivered" domain="[('state', 'in', ('sent', 'delivered', 'read'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="group_account" string="Account" context="{'group_by': 'account_id'}"/>
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_message_queue" model="ir.actions.act_window">
+        <field name="name">Message Queue</field>
+        <field name="res_model">whatsapp.message.queue</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_message_queue_search"/>
+        <field name="context">{'search_default_queued': 1}</field>
+    </record>
+</odoo>

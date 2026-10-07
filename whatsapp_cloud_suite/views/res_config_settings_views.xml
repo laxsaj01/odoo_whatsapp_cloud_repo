@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_whatsapp" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.whatsapp</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="35"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="WhatsApp Cloud API" string="WhatsApp Cloud API" name="whatsapp_cloud_suite">
+                    <block title="Meta Cloud API Gateway" name="whatsapp_general_setting">
+                        <setting id="whatsapp_default_account" string="Primary WhatsApp Account" help="Select the default verified WhatsApp account for automated messages.">
+                            <field name="whatsapp_default_account_id"/>
+                        </setting>
+                    </block>
+                    <block title="Zero-Click Business Automations" name="whatsapp_automation_setting">
+                        <setting id="whatsapp_sale_auto" string="Automated Quotation Confirmation" help="Dispatches confirmed order updates immediately upon confirmation.">
+                            <field name="whatsapp_auto_sale_confirm"/>
+                        </setting>
+                        <setting id="whatsapp_invoice_auto" string="Automated PDF Invoice on Post" help="Renders QWeb PDF invoice in-memory and dispatches to customer WhatsApp on validation.">
+                            <field name="whatsapp_auto_invoice_validate"/>
+                        </setting>
+                        <setting id="whatsapp_delivery_auto" string="Automated Shipping Tracking" help="Sends delivery and carrier tracking reference when stock delivery is validated.">
+                            <field name="whatsapp_auto_stock_validate"/>
+                        </setting>
+                    </block>
+                    <block title="AI &amp; Interactive Bot" name="whatsapp_bot_setting">
+                        <setting id="whatsapp_bot" string="Interactive Conversational Ordering" help="Enables auto-responses for CATALOG and automated Draft Quotation creation.">
+                            <field name="whatsapp_enable_bot"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'whatsapp_cloud_suite', 'bin_size': False}</field>
+    </record>
+</odoo>

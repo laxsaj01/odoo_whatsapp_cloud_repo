@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View -->
+    <record id="view_whatsapp_account_tree" model="ir.ui.view">
+        <field name="name">whatsapp.account.tree</field>
+        <field name="model">whatsapp.account</field>
+        <field name="arch" type="xml">
+            <tree string="WhatsApp Accounts" decoration-success="state == 'connected'" decoration-danger="state == 'error'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="display_phone_number"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="quality_rating" widget="badge" 
+                       decoration-success="quality_rating == 'GREEN'" 
+                       decoration-warning="quality_rating == 'YELLOW'" 
+                       decoration-danger="quality_rating == 'RED'"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'connected'" 
+                       decoration-danger="state == 'error'" 
+                       decoration-muted="state == 'draft'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_whatsapp_account_form" model="ir.ui.view">
+        <field name="name">whatsapp.account.form</field>
+        <field name="model">whatsapp.account</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Cloud API Account">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="btn-primary" icon="fa-check-circle"/>
+                    <button name="action_sync_templates" string="Sync Meta Templates" type="object" class="btn-secondary" icon="fa-refresh" invisible="state != 'connected'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,connected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_templates" type="object" class="oe_stat_button" icon="fa-list-alt">
+                            <field name="template_count" widget="statinfo" string="Templates"/>
+                        </button>
+                        <button name="action_view_queue" type="object" class="oe_stat_button" icon="fa-paper-plane">
+                            <field name="queue_count" widget="statinfo" string="In Queue"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Connected" bg_color="bg-success" invisible="state != 'connected'"/>
+                    <widget name="web_ribbon" title="Error" bg_color="bg-danger" invisible="state != 'error'"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Head Office Official WhatsApp"/></h1>
+                    </div>
+
+                    <group>
+                        <group name="meta_credentials" string="Meta Cloud API Credentials">
+                            <field name="phone_number_id" placeholder="e.g. 104829104820192"/>
+                            <field name="waba_id" placeholder="e.g. 192837465019283"/>
+                            <field name="graph_api_version"/>
+                            <field name="access_token" password="True" placeholder="EAAB..."/>
+                        </group>
+                        <group name="account_info" string="Status &amp; Verification">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="display_phone_number"/>
+                            <field name="quality_rating" widget="badge"/>
+                            <field name="code_verification_status"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Webhook Configuration" name="webhook_page">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Meta Developer Setup Instructions:</strong><br/>
+                                1. Open your app on <a href="https://developers.facebook.com" target="_blank">Meta for Developers</a>.<br/>
+                                2. Go to <strong>WhatsApp &gt; Configuration &gt; Callback URL</strong>.<br/>
+                                3. Paste the <strong>Webhook Callback URL</strong> below.<br/>
+                                4. Paste the <strong>Verify Token</strong> below.<br/>
+                                5. Subscribe to Webhook fields: <code>messages</code> and <code>message_template_status_update</code>.
+                            </div>
+                            <group>
+                                <field name="webhook_callback_url" readonly="1" widget="CopyClipboardChar"/>
+                                <label for="webhook_verify_token"/>
+                                <div class="o_row">
+                                    <field name="webhook_verify_token" readonly="1"/>
+                                    <button name="action_generate_new_verify_token" string="Generate New Token" type="object" class="btn-link" icon="fa-refresh" confirm="Regenerating token will require updating Meta Webhook config. Continue?"/>
+                                </div>
+                                <field name="app_secret" password="True" placeholder="Used to verify HMAC-SHA256 signatures for zero-spoofing security"/>
+                            </group>
+                        </page>
+                        <page string="Queue &amp; Failover Settings" name="queue_settings">
+                            <group>
+                                <group>
+                                    <field name="auto_retry_failed"/>
+                                    <field name="max_retry_count" invisible="not auto_retry_failed"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Window Action -->
+    <record id="action_whatsapp_account" model="ir.actions.act_window">
+        <field name="name">WhatsApp Accounts</field>
+        <field name="res_model">whatsapp.account</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure your first Meta WhatsApp Business Cloud API Account!
+            </p>
+        </field>
+    </record>
+</odoo>

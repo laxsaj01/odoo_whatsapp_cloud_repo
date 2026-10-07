@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whatsapp_send_composer_form" model="ir.ui.view">
+        <field name="name">whatsapp.send.composer.form</field>
+        <field name="model">whatsapp.send.composer</field>
+        <field name="arch" type="xml">
+            <form string="Send WhatsApp Message">
+                <sheet>
+                    <group>
+                        <group string="Sender &amp; Recipient">
+                            <field name="account_id"/>
+                            <field name="partner_id"/>
+                            <field name="recipient_phone" placeholder="e.g. +923001234567 or +971501234567"/>
+                        </group>
+                        <group string="Dispatch Options">
+                            <field name="message_type" widget="radio"/>
+                            <field name="template_id" invisible="message_type != 'template'" required="message_type == 'template'"/>
+                        </group>
+                    </group>
+
+                    <group string="File Attachment" invisible="message_type not in ('media', 'template')">
+                        <group>
+                            <field name="media_type" invisible="message_type != 'media'"/>
+                            <field name="attachment_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Message Content" invisible="message_type != 'text'">
+                        <field name="message_body" placeholder="Type your WhatsApp message here..." nolabel="1"/>
+                    </group>
+
+                    <group string="Live Dynamic Preview" invisible="message_type != 'template'">
+                        <field name="preview_body" readonly="1" nolabel="1" style="background-color: #e5ddd5; border-radius: 8px; padding: 12px; font-family: sans-serif;"/>
+                    </group>
+
+                    <field name="model_name" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                </sheet>
+                <footer>
+                    <button name="action_send_direct" string="Send Immediately" type="object" class="btn-primary" icon="fa-paper-plane"/>
+                    <button name="action_enqueue" string="Schedule / Enqueue" type="object" class="btn-secondary" icon="fa-clock-o"/>
+                    <button string="Discard" class="btn-link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

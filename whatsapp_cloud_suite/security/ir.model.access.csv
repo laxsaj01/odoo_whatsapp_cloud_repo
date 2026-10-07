@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_whatsapp_account_user,whatsapp.account.user,model_whatsapp_account,group_whatsapp_user,1,0,0,0
+access_whatsapp_account_manager,whatsapp.account.manager,model_whatsapp_account,group_whatsapp_manager,1,1,1,1
+access_whatsapp_template_user,whatsapp.template.user,model_whatsapp_template,group_whatsapp_user,1,0,0,0
+access_whatsapp_template_manager,whatsapp.template.manager,model_whatsapp_template,group_whatsapp_manager,1,1,1,1
+access_whatsapp_template_button_user,whatsapp.template.button.user,model_whatsapp_template_button,group_whatsapp_user,1,0,0,0
+access_whatsapp_template_button_manager,whatsapp.template.button.manager,model_whatsapp_template_button,group_whatsapp_manager,1,1,1,1
+access_whatsapp_message_queue_user,whatsapp.message.queue.user,model_whatsapp_message_queue,group_whatsapp_user,1,1,1,0
+access_whatsapp_message_queue_manager,whatsapp.message.queue.manager,model_whatsapp_message_queue,group_whatsapp_manager,1,1,1,1
+access_whatsapp_chat_history_user,whatsapp.chat.history.user,model_whatsapp_chat_history,group_whatsapp_user,1,1,1,0
+access_whatsapp_chat_history_manager,whatsapp.chat.history.manager,model_whatsapp_chat_history,group_whatsapp_manager,1,1,1,1
+access_whatsapp_send_composer_user,whatsapp.send.composer.user,model_whatsapp_send_composer,group_whatsapp_user,1,1,1,1
+access_whatsapp_send_composer_manager,whatsapp.send.composer.manager,model_whatsapp_send_composer,group_whatsapp_manager,1,1,1,1

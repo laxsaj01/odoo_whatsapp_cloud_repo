@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit_whatsapp" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.whatsapp</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_send_whatsapp_invoice" string="WhatsApp Invoice" type="object" class="btn-success" icon="fa-whatsapp" invisible="move_type not in ('out_invoice', 'out_refund') or state != 'posted'"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="whatsapp_invoice_status" widget="badge" 
+                       invisible="move_type not in ('out_invoice', 'out_refund')"
+                       decoration-success="whatsapp_invoice_status == 'sent'" 
+                       decoration-danger="whatsapp_invoice_status == 'failed'" 
+                       decoration-muted="whatsapp_invoice_status == 'not_sent'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_invoice_tree_inherit_whatsapp" model="ir.ui.view">
+        <field name="name">account.move.tree.inherit.whatsapp</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='status_in_payment']" position="after">
+                <field name="whatsapp_invoice_status" widget="badge" optional="show"
+                       decoration-success="whatsapp_invoice_status == 'sent'" 
+                       decoration-danger="whatsapp_invoice_status == 'failed'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

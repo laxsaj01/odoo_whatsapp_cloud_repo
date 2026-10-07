@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whatsapp_chat_history_tree" model="ir.ui.view">
+        <field name="name">whatsapp.chat.history.tree</field>
+        <field name="model">whatsapp.chat.history</field>
+        <field name="arch" type="xml">
+            <tree string="WhatsApp Conversations" create="false" edit="false">
+                <field name="create_date" string="Time"/>
+                <field name="direction" widget="badge" decoration-info="direction == 'inbound'" decoration-primary="direction == 'outbound'"/>
+                <field name="partner_id"/>
+                <field name="sender_phone"/>
+                <field name="receiver_phone"/>
+                <field name="message_type"/>
+                <field name="message_text"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state in ('received', 'delivered', 'read')" 
+                       decoration-danger="state == 'failed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_chat_history_form" model="ir.ui.view">
+        <field name="name">whatsapp.chat.history.form</field>
+        <field name="model">whatsapp.chat.history</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Chat Record" create="false" edit="false">
+                <header>
+                    <button name="action_open_record" string="Open Source Document" type="object" class="btn-secondary" icon="fa-external-link" invisible="not model_name or not res_id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Message Metadata">
+                            <field name="account_id"/>
+                            <field name="partner_id"/>
+                            <field name="direction" widget="badge"/>
+                            <field name="message_type"/>
+                            <field name="create_date" string="Date/Time"/>
+                        </group>
+                        <group string="Phone Routing">
+                            <field name="sender_phone"/>
+                            <field name="receiver_phone"/>
+                            <field name="meta_message_id"/>
+                            <field name="channel_id"/>
+                        </group>
+                    </group>
+                    <group string="Message Payload">
+                        <field name="message_text" nolabel="1"/>
+                        <field name="media_url" invisible="not media_url"/>
+                        <field name="attachment_id" invisible="not attachment_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_chat_history_search" model="ir.ui.view">
+        <field name="name">whatsapp.chat.history.search</field>
+        <field name="model">whatsapp.chat.history</field>
+        <field name="arch" type="xml">
+            <search string="Search Chats">
+                <field name="partner_id"/>
+                <field name="sender_phone"/>
+                <field name="receiver_phone"/>
+                <field name="message_text"/>
+                <filter name="inbound" string="Received (Inbound)" domain="[('direction', '=', 'inbound')]"/>
+                <filter name="outbound" string="Sent (Outbound)" domain="[('direction', '=', 'outbound')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_direction" string="Direction" context="{'group_by': 'direction'}"/>
+                    <filter name="group_account" string="Account" context="{'group_by': 'account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_chat_history" model="ir.actions.act_window">
+        <field name="name">Live Conversations</field>
+        <field name="res_model">whatsapp.chat.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_whatsapp_chat_history_search"/>
+    </record>
+</odoo>

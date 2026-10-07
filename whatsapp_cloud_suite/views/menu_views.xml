@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Application Menu -->
+    <menuitem id="menu_whatsapp_root"
+              name="WhatsApp Cloud"
+              sequence="65"
+              web_icon="whatsapp_cloud_suite,static/description/icon.png"/>
+
+    <!-- Operational Submenus -->
+    <menuitem id="menu_whatsapp_chat_history"
+              name="Live Chats"
+              parent="menu_whatsapp_root"
+              action="action_whatsapp_chat_history"
+              sequence="10"/>
+
+    <menuitem id="menu_whatsapp_queue"
+              name="Message Queue"
+              parent="menu_whatsapp_root"
+              action="action_whatsapp_message_queue"
+              sequence="20"/>
+
+    <menuitem id="menu_whatsapp_templates"
+              name="Templates"
+              parent="menu_whatsapp_root"
+              action="action_whatsapp_template"
+              sequence="30"/>
+
+    <!-- Configuration Submenus (Managers only) -->
+    <menuitem id="menu_whatsapp_config_parent"
+              name="Configuration"
+              parent="menu_whatsapp_root"
+              groups="group_whatsapp_manager"
+              sequence="100"/>
+
+    <menuitem id="menu_whatsapp_accounts"
+              name="WhatsApp Accounts"
+              parent="menu_whatsapp_config_parent"
+              action="action_whatsapp_account"
+              sequence="10"/>
+
+    <menuitem id="menu_whatsapp_settings"
+              name="Settings"
+              parent="menu_whatsapp_config_parent"
+              action="action_whatsapp_config_settings"
+              sequence="20"/>
+</odoo>

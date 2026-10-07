@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_whatsapp_template_tree" model="ir.ui.view">
+        <field name="name">whatsapp.template.tree</field>
+        <field name="model">whatsapp.template</field>
+        <field name="arch" type="xml">
+            <tree string="WhatsApp Templates">
+                <field name="name"/>
+                <field name="account_id"/>
+                <field name="language_code"/>
+                <field name="category" widget="badge"/>
+                <field name="model_id"/>
+                <field name="header_type"/>
+                <field name="state" widget="badge" 
+                       decoration-success="state == 'approved'" 
+                       decoration-danger="state == 'rejected'" 
+                       decoration-warning="state in ('pending', 'paused')"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_whatsapp_template_form" model="ir.ui.view">
+        <field name="name">whatsapp.template.form</field>
+        <field name="model">whatsapp.template</field>
+        <field name="arch" type="xml">
+            <form string="WhatsApp Template">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Approved" bg_color="bg-success" invisible="state != 'approved'"/>
+                    <widget name="web_ribbon" title="Rejected" bg_color="bg-danger" invisible="state != 'rejected'"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. order_confirmation_v1"/></h1>
+                    </div>
+
+                    <group>
+                        <group name="meta_info" string="Meta Definition">
+                            <field name="account_id"/>
+                            <field name="meta_template_id" readonly="1"/>
+                            <field name="language_code"/>
+                            <field name="category"/>
+                        </group>
+                        <group name="odoo_mapping" string="Odoo Dynamic Binding">
+                            <field name="model_id" placeholder="e.g. Sale Order, Invoice, Delivery..."/>
+                            <field name="variable_mapping" placeholder="partner_id.name, name, amount_total"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Template Content" name="content_page">
+                            <group>
+                                <field name="header_type"/>
+                                <field name="header_text" invisible="header_type != 'text'"/>
+                                <field name="body_text" placeholder="Dear {{1}}, thank you for your order {{2}}..."/>
+                                <field name="footer_text"/>
+                            </group>
+                        </page>
+                        <page string="Interactive Buttons" name="buttons_page">
+                            <field name="button_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="button_type"/>
+                                    <field name="url" invisible="button_type != 'url'"/>
+                                    <field name="phone_number" invisible="button_type != 'phone_number'"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_template" model="ir.actions.act_window">
+        <field name="name">Templates</field>
+        <field name="res_model">whatsapp.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Synchronize or design your Meta WhatsApp Templates!
+            </p>
+        </field>
+    </record>
+</odoo>

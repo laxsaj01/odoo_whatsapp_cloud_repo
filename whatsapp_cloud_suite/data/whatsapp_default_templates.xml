@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sample Default Template: Order Confirmation -->
+        <record id="default_template_order_confirm" model="whatsapp.template">
+            <field name="name">order_confirmation_v1</field>
+            <field name="language_code">en_US</field>
+            <field name="category">UTILITY</field>
+            <field name="state">approved</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="header_type">text</field>
+            <field name="header_text">Order Confirmed</field>
+            <field name="body_text">Dear {{1}}, thank you for choosing us! Your order {{2}} has been successfully placed. Total Amount: {{3}} {{4}}. We are currently processing your items.</field>
+            <field name="variable_mapping">partner_id.name, name, currency_id.symbol, amount_total</field>
+            <field name="footer_text">Thank you for your business!</field>
+        </record>
+
+        <!-- Sample Default Template: Invoice Dispatch -->
+        <record id="default_template_invoice_dispatch" model="whatsapp.template">
+            <field name="name">invoice_notice_v1</field>
+            <field name="language_code">en_US</field>
+            <field name="category">UTILITY</field>
+            <field name="state">approved</field>
+            <field name="model_id" ref="account.model_account_move"/>
+            <field name="header_type">document</field>
+            <field name="body_text">Hello {{1}}, your invoice {{2}} amounting to {{3}} {{4}} has been generated. Please review the attached document for complete details.</field>
+            <field name="variable_mapping">partner_id.name, name, currency_id.symbol, amount_total</field>
+            <field name="footer_text">Finance &amp; Accounts Team</field>
+        </record>
+
+        <!-- Sample Default Template: Delivery Dispatch -->
+        <record id="default_template_delivery_dispatch" model="whatsapp.template">
+            <field name="name">shipment_dispatch_v1</field>
+            <field name="language_code">en_US</field>
+            <field name="category">UTILITY</field>
+            <field name="state">approved</field>
+            <field name="model_id" ref="stock.model_stock_picking"/>
+            <field name="header_type">text</field>
+            <field name="header_text">Shipment On The Way</field>
+            <field name="body_text">Hello {{1}}, exciting news! Your delivery for {{2}} has been dispatched. Carrier Tracking: {{3}}.</field>
+            <field name="variable_mapping">partner_id.name, origin, carrier_tracking_ref</field>
+            <field name="footer_text">Logistics Support</field>
+        </record>
+    </data>
+</odoo>
